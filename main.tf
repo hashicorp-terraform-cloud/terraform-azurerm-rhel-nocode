@@ -7,10 +7,6 @@ terraform {
   }
 }
 
-provider "azurerm" {
-    features {}
-}
-
 data "azurerm_resource_group" "compute_rg" {
   name = var.rg_name
 }

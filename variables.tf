@@ -36,7 +36,7 @@ variable "location" {
 variable "ssh_admin_user" {
   description = "Admin User SSH Username"
   type        = string
-  default     = "azureuser"
+  default     = "rheluser"
 }
 
 variable "ssh_admin_user_public_key" {

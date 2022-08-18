@@ -27,6 +27,8 @@ resource "azurerm_public_ip" "rhel" {
   resource_group_name = data.azurerm_resource_group.compute_rg.name
   location            = data.azurerm_resource_group.compute_rg.location
   allocation_method   = "Dynamic"
+
+  tags = var.resource_tags
 }
 
 resource "azurerm_network_interface" "rhel" {
@@ -40,6 +42,8 @@ resource "azurerm_network_interface" "rhel" {
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.rhel.id
   }
+
+  tags = var.resource_tags
 }
 
 resource "azurerm_linux_virtual_machine" "rhel" {
@@ -69,5 +73,5 @@ resource "azurerm_linux_virtual_machine" "rhel" {
     version   = "latest"
   }
 
-  tags = var.vm_tags
+  tags = var.resource_tags
 }

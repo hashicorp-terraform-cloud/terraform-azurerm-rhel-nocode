@@ -1,10 +1,10 @@
 variable "vm_name" {
-  description = "Azure Virtual Machine name"
+  description = "Azure Virtual Machine Name"
   type        = string
 }
 
 variable "vm_size" {
-  description = "Azure Virtual Machine size"
+  description = "Azure Virtual Machine Size"
   default     = "Standard_D2as_v4"
   type        = string
 }
@@ -15,8 +15,8 @@ variable "vm_sku" {
   type        = string
 } 
 
-variable "vm_tags" {
-  description = "Azure Virtual Machine SKU"
+variable "resource_tags" {
+  description = "Azure Resource Tags"
   default     = {}
   type = map
 } 

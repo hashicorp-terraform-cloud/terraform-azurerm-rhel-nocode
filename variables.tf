@@ -3,6 +3,11 @@ variable "vm_name" {
   type        = string
 }
 
+variable "vm_owner" {
+  description = "Individual or Team responsible"
+  type        = string
+}
+
 variable "vm_size" {
   description = "Azure Virtual Machine Size"
   default     = "Standard_D2as_v4"
@@ -13,23 +18,20 @@ variable "vm_sku" {
   description = "Azure RHEL Virtual Machine SKU"
   default     = "90-gen2"
   type        = string
-} 
+}
 
-variable "resource_tags" {
+variable "default_resource_tags" {
   description = "Azure Resource Tags"
-  default     = {}
-  type = map
-} 
+  type        = map(any)
+  default = {
+    ManagedBy = "Terraform Cloud"
+    OwnedBy   = "${var.vm_owner}"
+  }
+}
 
 variable "rg_name" {
   description = "Resource Group Name"
   default     = "terraformDefaultRG"
-  type        = string
-}
-
-variable "location" {
-  description = "Resource Location"
-  default     = "uksouth"
   type        = string
 }
 

@@ -24,7 +24,7 @@ resource "azurerm_network_interface" "rhel" {
 
 resource "azurerm_linux_virtual_machine" "rhel" {
   count               = var.vm_instance_count     
-  name                = var.vm_name_prefix
+  name                = "${var.vm_name_prefix}-${random_pet.compute_id.id}-${count.index}"
   resource_group_name = data.azurerm_resource_group.compute_rg.name
   location            = data.azurerm_resource_group.compute_rg.location
   size                = var.vm_size

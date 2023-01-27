@@ -16,13 +16,12 @@ variable "vm_size" {
 
 variable "vm_instance_count" {
   description = "How many instances should be created"
-  default     = 1
   type        = number
 }
 
 variable "vm_sku" {
   description = "Azure RHEL Virtual Machine SKU"
-  default     = "90-gen2"
+  default     = "rhel-lvm91-gen2"
   type        = string
 }
 
@@ -36,7 +35,6 @@ variable "extra_resource_tags" {
 
 variable "rg_name" {
   description = "Target Resource Group Name"
-  default     = "terraformDefaultRG"
   type        = string
 }
 

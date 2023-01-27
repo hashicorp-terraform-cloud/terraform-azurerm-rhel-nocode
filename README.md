@@ -1,2 +1,2 @@
-# azure-rhel-module
-An example module for creating a RHEL host in Azure
+# aterraform-azurerm-rhel-nocode
+An example no-code module for creating a sequence of RHEL Virtual Machine Instances in Azure.

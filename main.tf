@@ -36,7 +36,6 @@ data "azurerm_subnet" "compute_sn" {
 
 resource "random_pet" compute_id {
     length = 3
-    special = false
     keepers = {
       owner = var.vm_owner
     }
@@ -45,6 +44,6 @@ resource "random_pet" compute_id {
 
 locals {
   default_resource_tags = merge({
-    OwnedBy = var.vm_owner
+    OwnedBy = random_pet.compute_id.keepers.owner
   }, var.extra_resource_tags)
 }

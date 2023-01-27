@@ -46,7 +46,7 @@ resource "azurerm_linux_virtual_machine" "rhel" {
   }
 
   # BYOS
-  source_image_reference = {
+  source_image_reference {
     publisher = "redhat"
     offer     = "rhel-byos"
     sku       = var.vm_sku

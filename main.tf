@@ -5,7 +5,7 @@ terraform {
       version = "~> 3.40.0"
     }
     random = {
-      source = "hashicorp/random"
+      source  = "hashicorp/random"
       version = "3.4.3"
     }
   }
@@ -34,11 +34,11 @@ data "azurerm_subnet" "compute_sn" {
   resource_group_name  = data.azurerm_resource_group.compute_rg.name
 }
 
-resource "random_pet" compute_id {
-    length = 3
-    keepers = {
-      owner = var.vm_owner
-    }
+resource "random_pet" "compute_id" {
+  length = 3
+  keepers = {
+    owner = var.vm_owner
+  }
 
 }
 

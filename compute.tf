@@ -23,7 +23,7 @@ resource "azurerm_network_interface" "rhel" {
 }
 
 resource "azurerm_linux_virtual_machine" "rhel" {
-  count               = var.vm_instance_count     
+  count               = var.vm_instance_count
   name                = "${var.vm_name_prefix}-${random_pet.compute_id.id}-${count.index}"
   resource_group_name = data.azurerm_resource_group.compute_rg.name
   location            = data.azurerm_resource_group.compute_rg.location
@@ -43,12 +43,7 @@ resource "azurerm_linux_virtual_machine" "rhel" {
     storage_account_type = "Standard_LRS"
   }
 
-  source_image_reference {
-    publisher = "RedHat"
-    offer     = "RHEL"
-    sku       = var.vm_sku
-    version   = "latest"
-  }
+  source_image_reference = var.vm_sku
 
   tags = local.default_resource_tags
 }

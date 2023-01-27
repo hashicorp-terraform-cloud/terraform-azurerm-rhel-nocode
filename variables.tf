@@ -21,8 +21,13 @@ variable "vm_instance_count" {
 
 variable "vm_sku" {
   description = "Azure RHEL Virtual Machine SKU"
-  default     = "rhel-lvm91-gen2"
-  type        = string
+  default = {
+    publisher = "redhat"
+    offer     = "rhel-byos"
+    sku       = "rhel-lvm91-gen2"
+    version   = "latest"
+  }
+  type = map(any)
 }
 
 variable "extra_resource_tags" {

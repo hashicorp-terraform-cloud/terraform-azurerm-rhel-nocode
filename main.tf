@@ -47,3 +47,7 @@ locals {
     OwnedBy = random_pet.compute_id.keepers.owner
   }, var.extra_resource_tags)
 }
+
+locals {
+  vm_name = "${var.vm_name_prefix}-${random_pet.compute_id.id}"
+}

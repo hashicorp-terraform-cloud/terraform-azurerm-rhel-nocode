@@ -1,5 +1,6 @@
 resource "azurerm_public_ip" "rhel" {
-  name                = "${var.vm_name_prefix}-public"
+  count               = var.vm_instance_count
+  name                = "${locals.vm_name}-${count.index}-public"
   resource_group_name = data.azurerm_resource_group.compute_rg.name
   location            = data.azurerm_resource_group.compute_rg.location
   allocation_method   = "Dynamic"
@@ -8,15 +9,16 @@ resource "azurerm_public_ip" "rhel" {
 }
 
 resource "azurerm_network_interface" "rhel" {
-  name                = "${var.vm_name_prefix}-if"
+  count               = var.vm_instance_count
+  name                = "${locals.vm_name}-${count.index}-if"
   location            = data.azurerm_resource_group.compute_rg.location
   resource_group_name = data.azurerm_resource_group.compute_rg.name
 
   ip_configuration {
-    name                          = "${var.vm_name_prefix}-internal"
+    name                          = "${locals.vm_name}-${count.index}-internal"
     subnet_id                     = data.azurerm_subnet.compute_sn.id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = azurerm_public_ip.rhel.id
+    public_ip_address_id          = azurerm_public_ip.rhel[count.index].id
   }
 
   tags = local.default_resource_tags
@@ -24,13 +26,13 @@ resource "azurerm_network_interface" "rhel" {
 
 resource "azurerm_linux_virtual_machine" "rhel" {
   count               = var.vm_instance_count
-  name                = "${var.vm_name_prefix}-${random_pet.compute_id.id}-${count.index}"
+  name                = "${locals.vm_name}-${count.index}"
   resource_group_name = data.azurerm_resource_group.compute_rg.name
   location            = data.azurerm_resource_group.compute_rg.location
   size                = var.vm_size
   admin_username      = var.ssh_admin_user
   network_interface_ids = [
-    azurerm_network_interface.rhel.id,
+    azurerm_network_interface.rhel[count.index].id,
   ]
 
   admin_ssh_key {
@@ -43,7 +45,21 @@ resource "azurerm_linux_virtual_machine" "rhel" {
     storage_account_type = "Standard_LRS"
   }
 
-  source_image_reference = var.vm_sku
+  # BYOS
+  source_image_reference = {
+    publisher = "redhat"
+    offer     = "rhel-byos"
+    sku       = var.vm_sku
+    version   = "latest"
+  }
+
+  # Marketplace
+  # source_image_reference = {
+  #     "publisher" : "RedHat",
+  #     "offer" : "RHEL",
+  #     "sku" : "9-lvm-gen2",
+  #     "version" : "latest"
+  # }
 
   tags = local.default_resource_tags
 }

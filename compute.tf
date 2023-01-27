@@ -53,8 +53,14 @@ resource "azurerm_linux_virtual_machine" "rhel" {
     version   = "latest"
   }
 
+  plan {
+    name      = var.vm_sku
+    publisher = "redhat"
+    product   = "rhel-byos"
+  }
+
   # Marketplace
-  # source_image_reference = {
+  # source_image_reference {
   #     "publisher" : "RedHat",
   #     "offer" : "RHEL",
   #     "sku" : "9-lvm-gen2",

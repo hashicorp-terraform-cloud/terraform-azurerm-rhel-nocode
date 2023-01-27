@@ -1,5 +1,5 @@
 resource "azurerm_public_ip" "rhel" {
-  name                = "${var.vm_name}-public"
+  name                = "${var.vm_name_prefix}-public"
   resource_group_name = data.azurerm_resource_group.compute_rg.name
   location            = data.azurerm_resource_group.compute_rg.location
   allocation_method   = "Dynamic"
@@ -8,12 +8,12 @@ resource "azurerm_public_ip" "rhel" {
 }
 
 resource "azurerm_network_interface" "rhel" {
-  name                = "${var.vm_name}-if"
+  name                = "${var.vm_name_prefix}-if"
   location            = data.azurerm_resource_group.compute_rg.location
   resource_group_name = data.azurerm_resource_group.compute_rg.name
 
   ip_configuration {
-    name                          = "${var.vm_name}-internal"
+    name                          = "${var.vm_name_prefix}-internal"
     subnet_id                     = data.azurerm_subnet.compute_sn.id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.rhel.id
@@ -23,7 +23,8 @@ resource "azurerm_network_interface" "rhel" {
 }
 
 resource "azurerm_linux_virtual_machine" "rhel" {
-  name                = var.vm_name
+  count               = var.vm_instance_count     
+  name                = var.vm_name_prefix
   resource_group_name = data.azurerm_resource_group.compute_rg.name
   location            = data.azurerm_resource_group.compute_rg.location
   size                = var.vm_size

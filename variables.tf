@@ -1,5 +1,5 @@
-variable "vm_name" {
-  description = "Azure Virtual Machine Name"
+variable "vm_name_prefix" {
+  description = "Each VM is created with a randomly generated name. Assign a common prefix."
   type        = string
 }
 
@@ -14,23 +14,28 @@ variable "vm_size" {
   type        = string
 }
 
+variable "vm_instance_count" {
+  description = "How many instances should be created"
+  default     = 1
+  type        = number
+}
+
 variable "vm_sku" {
   description = "Azure RHEL Virtual Machine SKU"
   default     = "90-gen2"
   type        = string
 }
 
-variable "default_resource_tags" {
-  description = "Azure Resource Tags"
+variable "extra_resource_tags" {
+  description = "Extra Azure Resource Tags"
   type        = map(any)
   default = {
-    ManagedBy = "Terraform Cloud"
-    OwnedBy   = "${var.vm_owner}"
+    CreatedBy = "terraform-azurerm-rhel"
   }
 }
 
 variable "rg_name" {
-  description = "Resource Group Name"
+  description = "Target Resource Group Name"
   default     = "terraformDefaultRG"
   type        = string
 }

@@ -19,6 +19,7 @@ variable "vm_instance_count" {
   type        = number
 }
 
+# BYOS Offering
 variable "vm_sku" {
   description = "Azure RHEL Virtual Machine SKU"
   default = {
@@ -29,6 +30,18 @@ variable "vm_sku" {
   }
   type = map(any)
 }
+
+# Marketplace Offering
+# variable "vm_sku" {
+#   description = "Azure RHEL Virtual Machine SKU"
+#   default = {
+#     "publisher" : "RedHat",
+#     "offer" : "RHEL",
+#     "sku" : "9-lvm-gen2",
+#     "version" : "latest"
+#   }
+#   type = map(any)
+# }
 
 variable "extra_resource_tags" {
   description = "Extra Azure Resource Tags"

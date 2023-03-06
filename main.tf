@@ -43,11 +43,6 @@ resource "random_pet" "compute_id" {
 }
 
 locals {
-  default_resource_tags = merge({
-    OwnedBy = random_pet.compute_id.keepers.owner
-  }, var.extra_resource_tags)
-}
-
-locals {
-  vm_name = "${var.vm_name_prefix}-${random_pet.compute_id.id}"
+  resource_tags = merge(var.extra_tags, { owner = random_pet.compute_id.keepers.owner, DoNotDelete = true })
+  vm_name       = "${var.vm_name_prefix}-${random_pet.compute_id.id}"
 }

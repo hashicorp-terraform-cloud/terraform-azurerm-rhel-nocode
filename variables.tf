@@ -25,12 +25,10 @@ variable "vm_sku" {
   type        = string
 }
 
-variable "extra_resource_tags" {
+variable "extra_tags" {
   description = "Extra Azure Resource Tags"
   type        = map(any)
-  default = {
-    CreatedBy = "terraform-azurerm-rhel"
-  }
+  default = {}
 }
 
 variable "rg_name" {

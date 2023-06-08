@@ -5,7 +5,7 @@ resource "ansible_host" "rhel-hosts" {
   groups = [local.vm_name]
 
   variables = {
-    ansible_user = var.ssh_admin_user
-    ansible_host = azurerm_public_ip.rhel[count.index].ip_address
+    ansible_user = "${var.ssh_admin_user}"
+    ansible_host = "${azurerm_public_ip.rhel[count.index].ip_address}"
   }
 }

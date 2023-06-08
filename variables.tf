@@ -28,7 +28,7 @@ variable "vm_sku" {
 variable "extra_tags" {
   description = "Extra Azure Resource Tags"
   type        = map(any)
-  default = {}
+  default     = {}
 }
 
 variable "rg_name" {
@@ -47,3 +47,7 @@ variable "ssh_admin_user_public_key" {
   type        = string
 }
 
+variable "sm_activation_key" {
+  description = "Activation Key for RHEL Subscription Management"
+  type        = string
+}

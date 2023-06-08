@@ -2,11 +2,15 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.40.0"
+      version = "~> 3.59.0"
     }
     random = {
       source  = "hashicorp/random"
-      version = "3.4.3"
+      version = "3.5.1"
+    }
+    ansible = {
+      source  = "ansible/ansible"
+      version = "1.1.0"
     }
   }
 }
@@ -17,6 +21,10 @@ provider "azurerm" {
 
 provider "random" {
 
+}
+
+provider "ansible" {
+  # Configuration options
 }
 
 data "azurerm_resource_group" "compute_rg" {

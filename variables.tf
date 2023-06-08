@@ -46,8 +46,3 @@ variable "ssh_admin_user_public_key" {
   description = "Admin User SSH Public Key"
   type        = string
 }
-
-variable "sm_activation_key" {
-  description = "Activation Key for RHEL Subscription Management"
-  type        = string
-}

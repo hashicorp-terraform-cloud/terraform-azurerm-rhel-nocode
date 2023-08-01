@@ -31,14 +31,17 @@ resource "azurerm_linux_virtual_machine" "rhel" {
   location            = data.azurerm_resource_group.compute_rg.location
   size                = var.vm_size
   admin_username      = var.ssh_admin_user
-  network_interface_ids = [
-    azurerm_network_interface.rhel[count.index].id,
-  ]
 
   admin_ssh_key {
     username   = var.ssh_admin_user
     public_key = var.ssh_admin_user_public_key
   }
+
+  custom_data = base64encode(local.custom_data)
+
+  network_interface_ids = [
+    azurerm_network_interface.rhel[count.index].id,
+  ]
 
   os_disk {
     caching              = "ReadWrite"

@@ -53,4 +53,8 @@ resource "random_pet" "compute_id" {
 locals {
   resource_tags = merge(var.extra_tags, { owner = random_pet.compute_id.keepers.owner, DoNotDelete = true })
   vm_name       = "${var.vm_name_prefix}-${random_pet.compute_id.id}"
+  custom_data   = <<CUSTOM_DATA
+#!/bin/sh
+sudo rhc connect -organization ${var.rhsm_organisation_id} -activation-key ${var.rhsm_activation_key}
+  CUSTOM_DATA
 }

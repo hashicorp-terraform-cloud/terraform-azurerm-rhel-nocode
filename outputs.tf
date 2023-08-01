@@ -17,8 +17,3 @@ output "rhel_default_username" {
   value       = azurerm_linux_virtual_machine.rhel.*.admin_username
   description = "The Default Admin Username of the Azure Virtual Machine Instance"
 }
-
-output "ansible_inventory" {
-  value       = ansible_host.rhel-hosts[*]
-  description = "Representation of the Ansible Inventory"
-}

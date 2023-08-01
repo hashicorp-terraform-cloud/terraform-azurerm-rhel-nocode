@@ -43,6 +43,16 @@ variable "ssh_admin_user" {
 }
 
 variable "ssh_admin_user_public_key" {
-  description = "Admin User SSH Public Key"
+  description = "Admin User SSH Public Key configured on the host at deploy time"
+  type        = string
+}
+
+variable "rhsm_activation_key" {
+  description = "RHSM Activation Key"
+  type        = string
+}
+
+variable "rhsm_organisation_id" {
+  description = "RHSM Organisation ID"
   type        = string
 }

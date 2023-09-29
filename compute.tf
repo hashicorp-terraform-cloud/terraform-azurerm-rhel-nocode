@@ -32,6 +32,11 @@ resource "azurerm_linux_virtual_machine" "rhel" {
   size                = var.vm_size
   admin_username      = var.ssh_admin_user
 
+  identity {
+    type = "UserAssigned"
+    identity_ids = [ azurerm_user_assigned_identity.rhel.id ]
+  }
+
   admin_ssh_key {
     username   = var.ssh_admin_user
     public_key = var.ssh_admin_user_public_key

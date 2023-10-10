@@ -85,7 +85,7 @@ resource "azurerm_lb" "rhel" {
   frontend_ip_configuration {
     name                 = "${local.vm_name}-lb-public-ip"
     public_ip_address_id = azurerm_public_ip.rhel.id
-    subnet_id            = data.azurerm_subnet.compute_sn
+    subnet_id            = data.azurerm_subnet.compute_sn.id
   }
 
   tags = local.resource_tags

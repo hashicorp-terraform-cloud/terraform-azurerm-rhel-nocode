@@ -2,7 +2,7 @@ resource "azurerm_public_ip" "rhel" {
   name                = "${local.vm_name}-public"
   resource_group_name = data.azurerm_resource_group.compute_rg.name
   location            = data.azurerm_resource_group.compute_rg.location
-  allocation_method   = "Dynamic"
+  allocation_method   = "Static"
   sku                 = "Standard"
 
   tags = local.resource_tags

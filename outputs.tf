@@ -8,9 +8,9 @@ output "rhel_private_ip" {
   description = "The Private IP Adress of the Azure Virtual Machine Instance"
 }
 
-output "rhel_public_ip" {
-  value       = azurerm_linux_virtual_machine.rhel.*.public_ip_address
-  description = "The Public IP Adress of the Azure Virtual Machine Instance"
+output "rhel_lb_public_ip" {
+  value       = azurerm_linux_virtual_machine.rhel.public_ip_address
+  description = "The Public IP Adress of the LB in front of the Azure Virtual Machine Instance(s)"
 }
 
 output "rhel_default_username" {

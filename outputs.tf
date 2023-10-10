@@ -9,7 +9,7 @@ output "rhel_private_ip" {
 }
 
 output "rhel_lb_public_ip" {
-  value       = azurerm_public_ip.rhel.public_ip_address
+  value       = azurerm_public_ip.rhel.ip_address
   description = "The Public IP Adress of the LB in front of the Azure Virtual Machine Instance(s)"
 }
 

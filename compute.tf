@@ -1,6 +1,5 @@
 resource "azurerm_public_ip" "rhel" {
-  count               = var.vm_instance_count
-  name                = "${local.vm_name}-${count.index}-public"
+  name                = "${local.vm_name}-public"
   resource_group_name = data.azurerm_resource_group.compute_rg.name
   location            = data.azurerm_resource_group.compute_rg.location
   allocation_method   = "Dynamic"
@@ -18,7 +17,6 @@ resource "azurerm_network_interface" "rhel" {
     name                          = "${local.vm_name}-${count.index}-internal"
     subnet_id                     = data.azurerm_subnet.compute_sn.id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = azurerm_public_ip.rhel[count.index].id
   }
 
   tags = local.resource_tags
@@ -33,8 +31,8 @@ resource "azurerm_linux_virtual_machine" "rhel" {
   admin_username      = var.ssh_admin_user
 
   identity {
-    type = "UserAssigned"
-    identity_ids = [ azurerm_user_assigned_identity.rhel.id ]
+    type         = "UserAssigned"
+    identity_ids = [azurerm_user_assigned_identity.rhel.id]
   }
 
   admin_ssh_key {
@@ -76,4 +74,32 @@ resource "azurerm_linux_virtual_machine" "rhel" {
   # }
 
   tags = local.resource_tags
+}
+
+resource "azurerm_lb" "rhel" {
+  name                = "${local.vm_name}-lb"
+  sku                 = "Standard"
+  location            = data.azurerm_resource_group.compute_rg.location
+  resource_group_name = data.azurerm_resource_group.compute_rg.name
+
+  frontend_ip_configuration {
+    name                 = "${local.vm_name}-lb-public-ip"
+    public_ip_address_id = azurerm_public_ip.rhel.id
+    subnet_id            = data.azurerm_subnet.compute_sn
+  }
+
+  tags = local.resource_tags
+}
+
+resource "azurerm_lb_backend_address_pool" "rhel" {
+  loadbalancer_id = azurerm_lb.rhel.id
+  name            = "${local.vm_name}-address-pool"
+}
+
+resource "azurerm_lb_backend_address_pool_address" "rhel" {
+  count                   = var.vm_instance_count
+  name                    = "${local.vm_name}-${count.index}-pool-address"
+  backend_address_pool_id = azurerm_lb_backend_address_pool.rhel.id
+  ip_address              = azurerm_network_interface.rhel[count.index].private_ip_address
+  virtual_network_id      = data.azurerm_virtual_network.compute_vn.id
 }

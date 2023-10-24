@@ -76,30 +76,3 @@ resource "azurerm_linux_virtual_machine" "rhel" {
 
   tags = local.resource_tags
 }
-
-resource "azurerm_lb" "rhel" {
-  name                = "${local.vm_name}-lb"
-  sku                 = "Standard"
-  location            = data.azurerm_resource_group.compute_rg.location
-  resource_group_name = data.azurerm_resource_group.compute_rg.name
-
-  frontend_ip_configuration {
-    name                 = "${local.vm_name}-lb-public-ip"
-    public_ip_address_id = azurerm_public_ip.rhel.id
-  }
-
-  tags = local.resource_tags
-}
-
-resource "azurerm_lb_backend_address_pool" "rhel" {
-  loadbalancer_id = azurerm_lb.rhel.id
-  name            = "${local.vm_name}-address-pool"
-}
-
-resource "azurerm_lb_backend_address_pool_address" "rhel" {
-  count                   = var.vm_instance_count
-  name                    = "${local.vm_name}-${count.index}-pool-address"
-  backend_address_pool_id = azurerm_lb_backend_address_pool.rhel.id
-  ip_address              = azurerm_network_interface.rhel[count.index].private_ip_address
-  virtual_network_id      = data.azurerm_virtual_network.compute_vn.id
-}

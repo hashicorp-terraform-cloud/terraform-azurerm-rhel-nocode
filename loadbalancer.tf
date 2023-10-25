@@ -22,6 +22,11 @@ resource "azurerm_lb_backend_address_pool" "ssh" {
   name            = "${local.vm_name}-ssh-address-pool"
 }
 
+locals {
+  element_zero_if         = element(azurerm_network_interface.rhel.*, 0)
+  lb_ip_conf              = element(azurerm_lb.rhel.frontend_ip_configuration.*, 0)
+}
+
 resource "azurerm_lb_backend_address_pool_address" "rhel" {
   count                   = var.vm_instance_count
   name                    = "${local.vm_name}-${count.index}-web-pool-address"
@@ -30,16 +35,11 @@ resource "azurerm_lb_backend_address_pool_address" "rhel" {
   virtual_network_id      = data.azurerm_virtual_network.compute_vn.id
 }
 
-locals {
-  element_zero_if         = element(azurerm_network_interface.rhel.*, 0)
-  element_zero_if_ip_conf = element(local.element_zero_if.ip_configuration, 0)
-  lb_ip_conf              = element(azurerm_lb.rhel.frontend_ip_configuration.*, 0)
-}
-
-resource "azurerm_network_interface_backend_address_pool_association" "ssh" {
+resource "azurerm_lb_backend_address_pool_address" "ssh" {
+  name                    = "${local.vm_name}-ssh-pool-address"
   backend_address_pool_id = azurerm_lb_backend_address_pool.ssh.id
-  ip_configuration_name   = local.element_zero_if_ip_conf.name
-  network_interface_id    = local.element_zero_if.id
+  ip_address              = local.element_zero_if.private_ip_address
+  virtual_network_id      = data.azurerm_virtual_network.compute_vn.id
 }
 
 resource "azurerm_network_interface_security_group_association" "rhel" {
@@ -99,19 +99,18 @@ resource "azurerm_network_security_rule" "https" {
 }
 
 resource "azurerm_lb_nat_rule" "ssh" {
-  backend_address_pool_id        = null
   backend_port                   = 22
   enable_floating_ip             = false
   enable_tcp_reset               = false
   frontend_ip_configuration_name = local.lb_ip_conf.name
-  frontend_port                  = 22
-  frontend_port_end              = null
-  frontend_port_start            = null
+  frontend_port_start            = 22
+  frontend_port_end              = 22
   idle_timeout_in_minutes        = 4
   loadbalancer_id                = azurerm_lb.rhel.id
   name                           = "InboundSSH"
   protocol                       = "Tcp"
   resource_group_name            = data.azurerm_resource_group.compute_rg.name
+  backend_address_pool_id        = azurerm_lb_backend_address_pool.ssh.id
 }
 
 resource "azurerm_lb_rule" "https" {

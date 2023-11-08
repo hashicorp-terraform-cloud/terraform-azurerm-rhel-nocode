@@ -23,8 +23,8 @@ resource "azurerm_lb_backend_address_pool" "ssh" {
 }
 
 locals {
-  element_zero_if         = element(azurerm_network_interface.rhel.*, 0)
-  lb_ip_conf              = element(azurerm_lb.rhel.frontend_ip_configuration.*, 0)
+  element_zero_if = element(azurerm_network_interface.rhel.*, 0)
+  lb_ip_conf      = element(azurerm_lb.rhel.frontend_ip_configuration.*, 0)
 }
 
 resource "azurerm_lb_backend_address_pool_address" "rhel" {

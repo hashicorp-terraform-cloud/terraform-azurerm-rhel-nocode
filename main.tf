@@ -2,15 +2,11 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.59.0"
+      version = "~> 3.77.0"
     }
     random = {
       source  = "hashicorp/random"
-      version = "3.5.1"
-    }
-    ansible = {
-      source  = "ansible/ansible"
-      version = "1.1.0"
+      version = "~> 3.5.1"
     }
   }
 }
@@ -22,11 +18,6 @@ provider "azurerm" {
 provider "random" {
 
 }
-
-provider "ansible" {
-  # Configuration options
-}
-
 data "azurerm_resource_group" "compute_rg" {
   name = var.rg_name
 }
@@ -53,8 +44,4 @@ resource "random_pet" "compute_id" {
 locals {
   resource_tags = merge(var.extra_tags, { owner = random_pet.compute_id.keepers.owner, DoNotDelete = true })
   vm_name       = "${var.vm_name_prefix}-${random_pet.compute_id.id}"
-  custom_data   = <<CUSTOM_DATA
-#!/bin/sh
-sudo rhc connect -organization ${var.rhsm_organisation_id} -activation-key ${var.rhsm_activation_key}
-  CUSTOM_DATA
 }

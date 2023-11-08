@@ -41,7 +41,10 @@ resource "azurerm_linux_virtual_machine" "rhel" {
     public_key = var.ssh_admin_user_public_key
   }
 
-  custom_data = base64encode(local.custom_data)
+  custom_data = base64encode(templatefile("${path.module}/templates/custom-data.sh.tpl", {
+    var_rhsm_organisation_id = var.rhsm_organisation_id
+    var_rhsm_activation_key  = var.rhsm_activation_key
+  }))
 
   network_interface_ids = [
     azurerm_network_interface.rhel[count.index].id,

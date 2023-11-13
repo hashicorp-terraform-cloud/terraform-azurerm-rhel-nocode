@@ -5,7 +5,7 @@ rhc connect -organization ${var_rhsm_organisation_id} -activation-key ${var_rhsm
 
 # add the hashicorp rpm repositories
 dnf install -y dnf-plugins-core
-dnf config-manager --add-repo https://rpm.releases.hashicorp.com/$release/hashicorp.repo
+dnf config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
 
 # add the azure rpm repositories and install azure cli
 rpm --import https://packages.microsoft.com/keys/microsoft.asc

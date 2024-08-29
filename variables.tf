@@ -14,11 +14,6 @@ variable "vm_size" {
   type        = string
 }
 
-variable "vm_instance_count" {
-  description = "How many instances should be created"
-  type        = number
-}
-
 variable "vm_sku" {
   description = "Azure RHEL Virtual Machine SKU"
   default     = "rhel-lvm91-gen2"

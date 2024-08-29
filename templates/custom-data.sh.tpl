@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# register with rhsm
-rhc connect -organization ${var_rhsm_organisation_id} -activation-key ${var_rhsm_activation_key}
+# register with rhsm | ignore errors
+rhc connect -organization ${var_rhsm_organisation_id} -activation-key ${var_rhsm_activation_key} || true
 
 # add the hashicorp rpm repositories
 dnf install -y dnf-plugins-core

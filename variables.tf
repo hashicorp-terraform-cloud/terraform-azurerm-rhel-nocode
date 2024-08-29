@@ -10,7 +10,7 @@ variable "vm_owner" {
 
 variable "vm_size" {
   description = "Azure Virtual Machine Size"
-  default     = "Standard_D2as_v4"
+  default     = "Standard_D2as_v5"
   type        = string
 }
 

@@ -34,6 +34,11 @@ data "azurerm_subnet" "compute_sn" {
   resource_group_name  = data.azurerm_resource_group.compute_rg.name
 }
 
+data "azurerm_public_ip_prefix" "compute_pip" {
+  name                = "${data.azurerm_resource_group.compute_rg.name}-pip"
+  resource_group_name = data.azurerm_resource_group.compute_rg.name
+}
+
 resource "random_pet" "compute_id" {
   length = 2
   keepers = {

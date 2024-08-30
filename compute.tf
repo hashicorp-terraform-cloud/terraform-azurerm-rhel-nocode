@@ -3,6 +3,7 @@ resource "azurerm_public_ip" "rhel" {
   resource_group_name = data.azurerm_resource_group.compute_rg.name
   location            = data.azurerm_resource_group.compute_rg.location
   allocation_method   = "Static"
+  public_ip_prefix_id = data.azurerm_public_ip_prefix.compute_pip.id
 
   tags = local.resource_tags
 }

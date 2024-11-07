@@ -3,29 +3,28 @@ resource "azurerm_public_ip" "rhel" {
   resource_group_name = data.azurerm_resource_group.compute_rg.name
   location            = data.azurerm_resource_group.compute_rg.location
   allocation_method   = "Static"
-  sku                 = "Standard"
+  public_ip_prefix_id = data.azurerm_public_ip_prefix.compute_pip.id
 
   tags = local.resource_tags
 }
 
 resource "azurerm_network_interface" "rhel" {
-  count               = var.vm_instance_count
-  name                = "${local.vm_name}-${count.index}-if"
+  name                = "${local.vm_name}-if"
   location            = data.azurerm_resource_group.compute_rg.location
   resource_group_name = data.azurerm_resource_group.compute_rg.name
 
   ip_configuration {
-    name                          = "${local.vm_name}-${count.index}-internal"
+    name                          = "${local.vm_name}-internal"
     subnet_id                     = data.azurerm_subnet.compute_sn.id
     private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.rhel.id
   }
 
   tags = local.resource_tags
 }
 
 resource "azurerm_linux_virtual_machine" "rhel" {
-  count               = var.vm_instance_count
-  name                = "${local.vm_name}-${count.index}"
+  name                = local.vm_name
   resource_group_name = data.azurerm_resource_group.compute_rg.name
   location            = data.azurerm_resource_group.compute_rg.location
   size                = var.vm_size
@@ -47,7 +46,7 @@ resource "azurerm_linux_virtual_machine" "rhel" {
   }))
 
   network_interface_ids = [
-    azurerm_network_interface.rhel[count.index].id,
+    azurerm_network_interface.rhel.id,
   ]
 
   os_disk {
@@ -56,26 +55,25 @@ resource "azurerm_linux_virtual_machine" "rhel" {
   }
 
   # BYOS
+  # source_image_reference {
+  #   publisher = "redhat"
+  #   offer     = "rhel-byos"
+  #   sku       = var.vm_sku
+  #   version   = "latest"
+  # }
+
+  # plan {
+  #   name      = var.vm_sku
+  #   publisher = "redhat"
+  #   product   = "rhel-byos"
+  # }
+
   source_image_reference {
-    publisher = "redhat"
-    offer     = "rhel-byos"
-    sku       = var.vm_sku
+    publisher = "RedHat"
+    offer     = "RHEL"
+    sku       = "94_gen2"
     version   = "latest"
   }
-
-  plan {
-    name      = var.vm_sku
-    publisher = "redhat"
-    product   = "rhel-byos"
-  }
-
-  # Marketplace
-  # source_image_reference {
-  #     "publisher" : "RedHat",
-  #     "offer" : "RHEL",
-  #     "sku" : "9-lvm-gen2",
-  #     "version" : "latest"
-  # }
 
   tags = local.resource_tags
 }

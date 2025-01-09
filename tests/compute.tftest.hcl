@@ -8,7 +8,7 @@ run "compute_resources" {
   }
 
   assert {
-    condition     = azurerm_network_interface.rhel.ip_configuration.private_ip_address_allocation == "Dynamic"
+    condition     = azurerm_network_interface.rhel.ip_configuration[0].private_ip_address_allocation == "Dynamic"
     error_message = "Network interface IP address allocation should be Dynamic"
   }
 

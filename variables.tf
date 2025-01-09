@@ -16,7 +16,7 @@ variable "vm_size" {
 
 variable "vm_sku" {
   description = "Azure RHEL Virtual Machine SKU"
-  default     = "rhel-lvm91-gen2"
+  default     = "94_gen2"
   type        = string
 }
 

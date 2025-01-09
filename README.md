@@ -51,7 +51,7 @@ No modules.
 | <a name="input_vm_name_prefix"></a> [vm\_name\_prefix](#input\_vm\_name\_prefix) | Each VM is created with a randomly generated name. Assign a common prefix. | `string` | n/a | yes |
 | <a name="input_vm_owner"></a> [vm\_owner](#input\_vm\_owner) | Individual or Team responsible | `string` | n/a | yes |
 | <a name="input_vm_size"></a> [vm\_size](#input\_vm\_size) | Azure Virtual Machine Size | `string` | `"Standard_D2as_v5"` | no |
-| <a name="input_vm_sku"></a> [vm\_sku](#input\_vm\_sku) | Azure RHEL Virtual Machine SKU | `string` | `"rhel-lvm91-gen2"` | no |
+| <a name="input_vm_sku"></a> [vm\_sku](#input\_vm\_sku) | Azure RHEL Virtual Machine SKU | `string` | `"94_gen2"` | no |
 
 ## Outputs
 

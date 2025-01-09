@@ -6,7 +6,7 @@ An example no-code module for creating a sequence of RHEL Virtual Machine Instan
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 4.0.1 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 4.14.0 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | ~> 3.6.2 |
 
 ## Providers
@@ -26,11 +26,16 @@ No modules.
 |------|------|
 | [azurerm_linux_virtual_machine.rhel](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine) | resource |
 | [azurerm_network_interface.rhel](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) | resource |
+| [azurerm_network_interface_security_group_association.rhel](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface_security_group_association) | resource |
+| [azurerm_network_security_group.rhel](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_group) | resource |
+| [azurerm_network_security_rule.rhel](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule) | resource |
 | [azurerm_public_ip.rhel](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip) | resource |
 | [azurerm_user_assigned_identity.rhel](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) | resource |
 | [random_pet.compute_id](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/pet) | resource |
+| [azurerm_public_ip_prefix.compute_pip](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/public_ip_prefix) | data source |
 | [azurerm_resource_group.compute_rg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group) | data source |
 | [azurerm_subnet.compute_sn](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subnet) | data source |
+| [azurerm_virtual_machine.rhel](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/virtual_machine) | data source |
 | [azurerm_virtual_network.compute_vn](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/virtual_network) | data source |
 
 ## Inputs
@@ -43,7 +48,6 @@ No modules.
 | <a name="input_rhsm_organisation_id"></a> [rhsm\_organisation\_id](#input\_rhsm\_organisation\_id) | RHSM Organisation ID | `string` | n/a | yes |
 | <a name="input_ssh_admin_user"></a> [ssh\_admin\_user](#input\_ssh\_admin\_user) | Admin User SSH Username | `string` | `"rheluser"` | no |
 | <a name="input_ssh_admin_user_public_key"></a> [ssh\_admin\_user\_public\_key](#input\_ssh\_admin\_user\_public\_key) | Admin User SSH Public Key configured on the host at deploy time | `string` | n/a | yes |
-| <a name="input_vm_instance_count"></a> [vm\_instance\_count](#input\_vm\_instance\_count) | How many instances should be created | `number` | n/a | yes |
 | <a name="input_vm_name_prefix"></a> [vm\_name\_prefix](#input\_vm\_name\_prefix) | Each VM is created with a randomly generated name. Assign a common prefix. | `string` | n/a | yes |
 | <a name="input_vm_owner"></a> [vm\_owner](#input\_vm\_owner) | Individual or Team responsible | `string` | n/a | yes |
 | <a name="input_vm_size"></a> [vm\_size](#input\_vm\_size) | Azure Virtual Machine Size | `string` | `"Standard_D2as_v5"` | no |

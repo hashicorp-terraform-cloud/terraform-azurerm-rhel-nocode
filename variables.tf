@@ -12,6 +12,11 @@ variable "vm_size" {
   description = "Azure Virtual Machine Size"
   default     = "Standard_D2as_v5"
   type        = string
+
+  validation {
+    condition     = can(regex("^Standard_[A-Za-z0-9]+(_[A-Za-z0-9]+)*$", var.vm_size))
+    error_message = "VM size must be a valid Azure VM size starting with 'Standard_' followed by alphanumeric segments separated by underscores. Got: ${var.vm_size}"
+  }
 }
 
 variable "vm_sku" {

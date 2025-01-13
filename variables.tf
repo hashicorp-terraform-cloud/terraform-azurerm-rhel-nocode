@@ -14,8 +14,18 @@ variable "vm_size" {
   type        = string
 
   validation {
-    condition     = can(regex("^Standard_[A-Za-z0-9]+(_[A-Za-z0-9]+)*$", var.vm_size))
-    error_message = "VM size must be a valid Azure VM size starting with 'Standard_' followed by alphanumeric segments separated by underscores. Got: ${var.vm_size}"
+    condition     = startswith(var.vm_size, "Standard_")
+    error_message = "VM size must start with 'Standard_'. Got: ${var.vm_size}"
+  }
+
+  validation {
+    condition     = endswith(var.vm_size, "_v5")
+    error_message = "VM size must end with '_v5'. Got: ${var.vm_size}"
+  }
+
+  validation {
+    condition     = can(regex("^[A-Za-z0-9][A-Za-z0-9-_]*$", var.vm_size))
+    error_message = "VM size contains invalid characters. Only alphanumeric characters, hyphens, and underscores are allowed. Got: ${var.vm_size}"
   }
 }
 
